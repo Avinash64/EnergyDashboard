@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace EnergyDashboardAPI.Models;
 
-public partial class Energy2015
+public partial class Building
 {
     public long Bbl { get; set; }
 

@@ -16,11 +16,11 @@ public partial class EnergyContext : DbContext
     {
     }
 
-    public virtual DbSet<Energy2015> Energy2015s { get; set; }
+    public virtual DbSet<Building> Buildings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Energy2015>(entity =>
+        modelBuilder.Entity<Building>(entity =>
         {
             entity.HasKey(e => e.Bbl).HasName("PK__energy.2__C6DD4BDE75501970");
 

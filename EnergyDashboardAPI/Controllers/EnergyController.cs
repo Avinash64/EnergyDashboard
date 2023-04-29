@@ -16,15 +16,15 @@ namespace EnergyDashboardAPI.Controllers
         }
 
         [HttpGet]
-        public List<Energy2015> Get()
+        public List<Building> Get()
         {
-            return _context.Energy2015s.ToList();
+            return _context.Buildings.ToList();
         }
 
         [HttpGet("{id}")]
-        public  ActionResult<Energy2015> Get(int bbl)
+        public async Task<ActionResult<Building>> Get(long bbl)
         {
-            var energy =  _context.Energy2015s.FirstOrDefaultAsync(m => m.Bbl == bbl);
+            var energy = await _context.Buildings.FirstOrDefaultAsync(m => m.Bbl == bbl);
             if (energy == null){
 
                 return NotFound();
@@ -34,20 +34,20 @@ namespace EnergyDashboardAPI.Controllers
         }
 
         [HttpPost]
-        public  ActionResult<Energy2015> Post(Energy2015 energy)
+        public  async Task<ActionResult<Building>> Post(Building energy)
         {
             _context.Add(energy);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
         // [HttpPut]
-        // public ActionResult<Energy2015> Put(Energy2015 energyData)
+        // public ActionResult<Building> Put(Building energyData)
         // {
         //     if (energyData == null || energyData.Id == 0)
         //         return BadRequest();
 
-        //     var energy = _context.Energy2015s.FindAsync(energyData.Id);
+        //     var energy = _context.Buildings.FindAsync(energyData.Id);
         //     if (energy == null)
         //         return NotFound();
         //     energy.Name = energyData.Name;
@@ -60,9 +60,9 @@ namespace EnergyDashboardAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var energy = await _context.Energy2015s.FindAsync(id);
+            var energy = await _context.Buildings.FindAsync(id);
             if (energy == null) return NotFound();
-            _context.Energy2015s.Remove(energy);
+            _context.Buildings.Remove(energy);
             await _context.SaveChangesAsync();
             return Ok();
 
