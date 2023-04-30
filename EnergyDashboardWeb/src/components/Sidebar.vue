@@ -22,7 +22,7 @@
             <span class="material-icons">visibility</span>
             <span class="text">About</span>
         </router-link>
-        <router-link class="button" to="/">
+        <router-link class="button" to="/buildings">
             <span class="material-icons">group</span>
             <span class="text">Team</span>
         </router-link>
