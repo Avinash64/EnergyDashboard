@@ -118,63 +118,94 @@ const samp_dat = [
 		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
 	}]
 
+const highestUse = samp_dat.reduce(function (prev, current) {
+	return (prev.energyUsage > current.energyUsage) ? prev : current
+})
+
+const lowestUse = samp_dat.reduce(function (prev, current) {
+	return (prev.energyUsage < current.energyUsage) ? prev : current
+})
+
 </script>
 
 <template>
-    <div class="dashboard">
-        <h1>Dashboard</h1>
-        <div class="grid-container">
-            <div class="grid-item grid-item1">
-                <BarChart></BarChart>
-            </div>
-            <div class="grid-item grid-item3">Grid </div>
-    <div class="grid-item grid-item2">
-        <Map></Map>
-    </div>
-    <div class="grid-item grid-item4">
-        {{ samp_dat.reduce(function(prev, current) {
-    return (prev.energyUsage > current.energyUsage) ? prev : current
-}) }}
-    </div>
-    <div class="grid-item grid-item5">Grid 2</div>
-    <div class="grid-item grid-item6">Grid 2</div>
-    <div class="grid-item grid-item7">Grid 2</div>
-</div>
-</div>
+	<div class="dashboard">
+		<h1>Dashboard</h1>
+		<div class="grid-container">
+			<div class="grid-item grid-item1">
+				<BarChart></BarChart>
+			</div>
+			<div class="grid-item grid-item3">Grid </div>
+			<div class="grid-item grid-item2">
+				<Map></Map>
+			</div>
+			<div class="grid-item highestUser">
+				<div class="card w-100 border-danger summary">
+					<div class="card-header">
+						Highest Energy Usage
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">{{ highestUse.buildingName }}</h5>
+						<h6 class="card-text text-danger">{{ highestUse.energyUsage }}</h6>
+						<a href="#" class="btn btn-primary">See more info</a>
+					</div>
+				</div>				
+				
+			</div>
+			
+			<div class="grid-item grid-item5">
+				<div class="card  w-100 summary border-success ">
+					<div class="card-header">
+						Lowest Energy Usage
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">{{ lowestUse.buildingName }}</h5>
+						<h6 class="card-text text-success">{{ lowestUse.energyUsage }}</h6>
+						<a href="#" class="btn btn-primary">See more info</a>
+					</div>
+				</div>
+			</div>
+			<div class="grid-item grid-item6">Grid 2</div>
+			<div class="grid-item grid-item7">Grid 2</div>
+		</div>
+	</div>
 </template>
 
 
 <style>
-    .grid-container {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr ;
-        grid-auto-rows: minmax(150px, auto);
-        grid-gap: 10px;
-        width: 100%;
+.highestUser {}
 
-    }
-    .dashboard {
-        width: 100%;
-    }
+.grid-container {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-auto-rows: minmax(150px, auto);
+	grid-gap: 10px;
+	width: 100%;
 
-    .grid-item {
-        background-color: aquamarine;
-        border-style: solid;
-    }
+}
 
-    /* .grid-item2 {
+.dashboard {
+	width: 100%;
+}
+
+.grid-item {
+	background-color: aquamarine;
+	border-style: solid;
+}
+
+/* .grid-item2 {
         grid-column-start: 2;
         grid-column-end: 3;
 
         grid-row-start: 1;
         grid-row-end: 3;
     } */
-    .grid-item7 {
-        grid-column-start: 1;
-        grid-column-end: -1;
-    }
+.grid-item7 {
+	grid-column-start: 1;
+	grid-column-end: -1;
+}
 
-    .grid-item1 {
-        background-color: white;
-    }
+.grid-item1 {
+	background-color: white;
+}
 </style>
