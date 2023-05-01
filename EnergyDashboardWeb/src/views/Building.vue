@@ -25,11 +25,15 @@ onMounted(()=>{
 	.catch(err => console.error(err));
 	
 })
+
+// let token = localStorage.getItem('token')
 const save = () => {
 	const options = {
   method: 'PUT',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+	'Authorization': `Bearer ${localStorage.getItem('token')}`
+
   },
   body: JSON.stringify(building.value)
 };

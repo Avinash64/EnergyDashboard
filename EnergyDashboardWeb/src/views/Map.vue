@@ -46,8 +46,7 @@ fetch('http://localhost:5156/api/map?=', options)
        <l-popup>
             <div @click="innerClick">
               {{building.buildingName}}
-              {{ currentZoom }}
-
+              {{building.energyUsage}}
             </div>
           </l-popup>
         </l-circle>

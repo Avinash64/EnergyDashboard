@@ -1,30 +1,49 @@
 <script setup>
 import BarChart from "./BarChart.vue";
 import Map from "./Map.vue";
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, computed, watch, reactive } from 'vue';
 const b_num = ref('0')
 
 const samp_dat = ref([])
 const highestUse = ref(null)
 const lowestUse = ref(null)
+const totalConsumption = ref(null)
+const averageConsumption = ref(null)
 onMounted(() => {
 	const options = {
 		method: 'GET',
 		headers: {}
 	};
+	fetch('http://localhost:5156/api/stats/total', options)
+		.then(response => response.json())
+		.then(response => {
+			console.log(response); totalConsumption.value = response
+		})
+	fetch('http://localhost:5156/api/stats/average', options)
+		.then(response => response.json())
+		.then(response => {
+			console.log(response); averageConsumption.value = response
+		})
+	fetch('http://localhost:5156/api/stats/max', options)
+		.then(response => response.json())
+		.then(response => {
+			console.log(response); highestUse.value = response
+		})
 
+		.catch(err => console.error(err));
+	fetch('http://localhost:5156/api/stats/min', options)
+		.then(response => response.json())
+		.then(response => {
+			console.log(response); lowestUse.value = response
+
+		})
+		.catch(err => console.error(err));
 
 	fetch('http://localhost:5156/api/energy', options)
 		.then(response => response.json())
 		.then(response => {
 			console.log(response); samp_dat.value = response
-			highestUse.value = samp_dat.value.reduce(function (prev, current) {
-				return (prev.energyUsage > current.energyUsage) ? prev : current
-			})
 
-			lowestUse.value = samp_dat.value.reduce(function (prev, current) {
-				return (prev.energyUsage < current.energyUsage) ? prev : current
-			})
 		})
 		.catch(err => console.error(err));
 })
@@ -39,7 +58,21 @@ onMounted(() => {
 			<div class="grid-item grid-item1">
 				<BarChart></BarChart>
 			</div>
-			<div class="grid-item grid-item3">Grid </div>
+
+
+			<div v-if="totalConsumption" class="grid-item grid-item5">
+				<div class="card  w-100 summary border-success h-100">
+					<div class="card-header">
+						Total Energy Usage
+					</div>
+					<div class="card-body">
+						<h1 class="card-title">{{ totalConsumption }}</h1>
+						<h6 class="card-text">{{ samp_dat.length }} Buildings</h6>
+						<a :href="`/buildings/`" class="btn btn-primary">See more info</a>
+					</div>
+				</div>
+			</div>
+
 			<div class="grid-item grid-item2">
 				<Map></Map>
 			</div>
@@ -69,7 +102,18 @@ onMounted(() => {
 					</div>
 				</div>
 			</div>
-			<div class="grid-item grid-item6">Grid 2</div>
+
+			<div v-if="averageConsumption" class="grid-item grid-item5">
+				<div class="card  w-100 summary border-success h-100 ">
+					<div class="card-header">
+						Average Energy Usage
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">{{ averageConsumption }}</h5>
+						<h6 class="card-text text-success">Per building</h6>
+					</div>
+				</div>
+			</div>
 			<div class="grid-item grid-item7">Grid 2</div>
 		</div>
 	</div>
@@ -94,7 +138,7 @@ onMounted(() => {
 
 .grid-item {
 	background-color: aquamarine;
-	border-style: solid;
+	/* border-style: solid; */
 }
 
 /* .grid-item2 {

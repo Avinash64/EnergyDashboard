@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace EnergyDashboardAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController]
     
     public class EnergyController : ControllerBase
     {
@@ -35,6 +35,7 @@ namespace EnergyDashboardAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public  async Task<ActionResult<Building>> Post(Building energy)
         {
             _context.Add(energy);
@@ -43,6 +44,7 @@ namespace EnergyDashboardAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> Put(Building buildingData)
         {
             if (buildingData == null || buildingData.Bbl == 0)
@@ -72,6 +74,7 @@ namespace EnergyDashboardAPI.Controllers
         }
 
         [HttpDelete("{bbl}")]
+        [Authorize]
         public async Task<IActionResult> Delete(long bbl)
         {
             var energy = await _context.Buildings.FindAsync(bbl);

@@ -34,7 +34,7 @@ fetch('http://localhost:5156/api/energy', options)
             </div>  
             <div v-for="building, index in samp_dat" :key="index" >
                 <div class="building_list_item list-group-item" :class="index % 2 == 0 && 'odd'">
-                    <div class="field">{{ building.bbl }} {{ index }}</div>
+                    <div class="field">{{ building.bbl }} </div>
                     <div class="field">{{ building.buildingName }}</div>
                     <div class="field">{{ building.borough }}</div>
                     <div class="field">{{ building.buildingAddress }}</div>
