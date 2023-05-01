@@ -21,7 +21,7 @@ namespace EnergyDashboardAPI.Controllers
             return _context.Buildings.ToList();
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{bbl}")]
         public async Task<ActionResult<Building>> Get(long bbl)
         {
             var energy = await _context.Buildings.FirstOrDefaultAsync(m => m.Bbl == bbl);
@@ -41,26 +41,39 @@ namespace EnergyDashboardAPI.Controllers
             return Ok();
         }
 
-        // [HttpPut]
-        // public ActionResult<Building> Put(Building energyData)
-        // {
-        //     if (energyData == null || energyData.Id == 0)
-        //         return BadRequest();
-
-        //     var energy = _context.Buildings.FindAsync(energyData.Id);
-        //     if (energy == null)
-        //         return NotFound();
-        //     energy.Name = energyData.Name;
-        //     energy.Description = energyData.Description;
-        //     energy.Price = energyData.Price;
-        //      _context.SaveChangesAsync();
-        //     return Ok();
-        // }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPut]
+        public async Task<IActionResult> Put(Building buildingData)
         {
-            var energy = await _context.Buildings.FindAsync(id);
+            if (buildingData == null || buildingData.Bbl == 0)
+                return BadRequest();
+
+            var building = await _context.Buildings.FindAsync(buildingData.Bbl);
+            if (building == null)
+                return NotFound();
+            building.BoroughNumber = buildingData.BoroughNumber;
+            building.BuildingName = buildingData.BuildingName;
+            building.BuildingAddress = buildingData.BuildingAddress;
+            building.Borough = buildingData.Borough;
+            building.State = buildingData.State;
+            building.Postcode = buildingData.Postcode;
+            building.Block = buildingData.Block;
+            building.Lot = buildingData.Lot;
+            building.EnergyUsage = buildingData.EnergyUsage;
+            building.Latitude = buildingData.Latitude;
+            building.Longitude = buildingData.Longitude;
+            building.CommunityBoard = buildingData.CommunityBoard;
+            building.CouncilDistrict = buildingData.CouncilDistrict;
+            building.CensusTract = buildingData.CensusTract;
+            building.Bin = buildingData.Bin;
+            building.Nta = buildingData.Nta;
+             await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        [HttpDelete("{bbl}")]
+        public async Task<IActionResult> Delete(int bbl)
+        {
+            var energy = await _context.Buildings.FindAsync(bbl);
             if (energy == null) return NotFound();
             _context.Buildings.Remove(energy);
             await _context.SaveChangesAsync();

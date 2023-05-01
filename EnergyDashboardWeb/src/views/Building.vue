@@ -1,122 +1,45 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+
+
+
+
+
+import { ref,reactive,  onMounted, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const b_num = ref('0')
-const building = ref({})
-const samp_dat = [
-	{
-		"bbl": 10,
-		"boroughNumber": 1,
-		"buildingName": "100 Gold St",
-		"buildingAddress": "100 Gold St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10038,
-		"block": 94,
-		"lot": 25,
-		"energyUsage": 64582,
-		"latitude": 40.710353,
-		"longitude": -74.004007,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 1501,
-		"bin": 1001289,
-		"nta": "Battery Park City-Lower Manhattan                                          "
-	},
-	{
-		"bbl": 1000940025,
-		"boroughNumber": 1,
-		"buildingName": "100 Gold St",
-		"buildingAddress": "100 Gold St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10038,
-		"block": 94,
-		"lot": 25,
-		"energyUsage": 64582,
-		"latitude": 40.710353,
-		"longitude": -74.004007,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 1501,
-		"bin": 1001289,
-		"nta": "Battery Park City-Lower Manhattan                                          "
-	},
-	{
-		"bbl": 1001210001,
-		"boroughNumber": 1,
-		"buildingName": "Manhattan Municipal Building",
-		"buildingAddress": "1 Centre St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 121,
-		"lot": 1,
-		"energyUsage": 92117,
-		"latitude": 40.713001,
-		"longitude": -74.004181,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 29,
-		"bin": 1001394,
-		"nta": "Chinatown                                                                  "
-	},
-	{
-		"bbl": 1001220001,
-		"boroughNumber": 1,
-		"buildingName": "Tweed Courthouse (DOE Offices)",
-		"buildingAddress": "52 Chambers St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 122,
-		"lot": 1,
-		"energyUsage": 15308,
-		"latitude": 40.713814,
-		"longitude": -74.005570,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 31,
-		"bin": 1079146,
-		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
-	},
-	{
-		"bbl": 1001347501,
-		"boroughNumber": 1,
-		"buildingName": "Home Life Building",
-		"buildingAddress": "253 Broadway ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 134,
-		"lot": 7501,
-		"energyUsage": 19284,
-		"latitude": 40.713265,
-		"longitude": -74.007063,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 21,
-		"bin": 1082757,
-		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
-	},
-	{
-		"bbl": 1001530001,
-		"boroughNumber": 1,
-		"buildingName": "Sun Building",
-		"buildingAddress": "280 Broadway ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 153,
-		"lot": 1,
-		"energyUsage": 16423,
-		"latitude": 40.714417,
-		"longitude": -74.006089,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 31,
-		"bin": 1079215,
-		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
-	}]
+const building = reactive({})
+
+onMounted(()=>{
+
+	const options = {
+		method: 'GET',
+	};
+	const {
+		host, hostname, href, origin, pathname, port, protocol, search
+	} = window.location
+	console.log(href.split('/')[4])
+	fetch(`http://localhost:5156/api/energy/${href.split('/')[4]}`, options)
+	.then(response => response.json())
+	.then(response => {console.log(response); building.value = response} )
+	.catch(err => console.error(err));
+	
+})
+const save = () => {
+	const options = {
+  method: 'PUT',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(building.value)
+};
+
+fetch('http://localhost:5156/api/energy', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
+  router.push('/buildings');
+}
 
 
 </script>
@@ -126,25 +49,23 @@ const samp_dat = [
 	
 	<div class="buildingsPage">
 		<h1>Building {{ $route.params.id }}</h1>
-		<button @click="b_num++">Add</button>
+		<button >Add</button>
 	<div class="buildingForm">
-		<div v-for="(value, key, index) in samp_dat[1]" :key="index">
+		<div v-if="building" v-for="(value, key, index) in building.value" :key="index">
 			<div class="form-group">
 				<label :for="`${key}${index}`">{{ key.toUpperCase() }}:</label>
-				<input type="text" class="form-control w-50" :id="`${key}${index}`" :value="value">
+				<input type="text" class="form-control w-50" :id="`${key}${index}`" :placeholder="value" >
 			</div>
 		</div>
 	</div>
 	
 	<div class="options">
-		<button type="button" @click="$router.push('/buildings')" class="btn btn-primary">Save</button>
+		<button type="button" @click="save()" class="btn btn-primary">Save</button>
 		<button type="button" class="btn btn-secondary">Cancel</button>
 	</div>
 
-		{{ b_num }}
 	</div>
 </template>
-
 
 
 <style scoped>
@@ -172,4 +93,3 @@ const samp_dat = [
 	background-color: aqua;
 }
 </style>
-

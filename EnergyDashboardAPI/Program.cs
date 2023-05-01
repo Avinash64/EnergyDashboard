@@ -14,6 +14,10 @@ builder.Services.AddDbContextPool<EnergyContext>(option =>
 option.UseSqlServer(connectionString)
 );
 
+builder.Services.AddCors(p => p.AddPolicy("corspolicy", build => {
+    build.WithOrigins("http://localhost:5173").AllowAnyMethod().AllowAnyHeader();
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +27,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("corspolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

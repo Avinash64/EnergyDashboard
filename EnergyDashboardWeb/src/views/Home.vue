@@ -1,130 +1,34 @@
 <script setup>
 import BarChart from "./BarChart.vue";
 import Map from "./Map.vue";
+import { ref, onMounted, computed, watch } from 'vue';
+const b_num = ref('0')
 
-const samp_dat = [
-	{
-		"bbl": 10,
-		"boroughNumber": 1,
-		"buildingName": "100 Gold St",
-		"buildingAddress": "100 Gold St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10038,
-		"block": 94,
-		"lot": 25,
-		"energyUsage": 64582,
-		"latitude": 40.710353,
-		"longitude": -74.004007,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 1501,
-		"bin": 1001289,
-		"nta": "Battery Park City-Lower Manhattan                                          "
-	},
-	{
-		"bbl": 1000940025,
-		"boroughNumber": 1,
-		"buildingName": "100 Gold St",
-		"buildingAddress": "100 Gold St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10038,
-		"block": 94,
-		"lot": 25,
-		"energyUsage": 64582,
-		"latitude": 40.710353,
-		"longitude": -74.004007,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 1501,
-		"bin": 1001289,
-		"nta": "Battery Park City-Lower Manhattan                                          "
-	},
-	{
-		"bbl": 1001210001,
-		"boroughNumber": 1,
-		"buildingName": "Manhattan Municipal Building",
-		"buildingAddress": "1 Centre St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 121,
-		"lot": 1,
-		"energyUsage": 92117,
-		"latitude": 40.713001,
-		"longitude": -74.004181,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 29,
-		"bin": 1001394,
-		"nta": "Chinatown                                                                  "
-	},
-	{
-		"bbl": 1001220001,
-		"boroughNumber": 1,
-		"buildingName": "Tweed Courthouse (DOE Offices)",
-		"buildingAddress": "52 Chambers St ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 122,
-		"lot": 1,
-		"energyUsage": 15308,
-		"latitude": 40.713814,
-		"longitude": -74.005570,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 31,
-		"bin": 1079146,
-		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
-	},
-	{
-		"bbl": 1001347501,
-		"boroughNumber": 1,
-		"buildingName": "Home Life Building",
-		"buildingAddress": "253 Broadway ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 134,
-		"lot": 7501,
-		"energyUsage": 19284,
-		"latitude": 40.713265,
-		"longitude": -74.007063,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 21,
-		"bin": 1082757,
-		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
-	},
-	{
-		"bbl": 1001530001,
-		"boroughNumber": 1,
-		"buildingName": "Sun Building",
-		"buildingAddress": "280 Broadway ",
-		"borough": "Manhattan",
-		"state": "New York",
-		"postcode": 10007,
-		"block": 153,
-		"lot": 1,
-		"energyUsage": 16423,
-		"latitude": 40.714417,
-		"longitude": -74.006089,
-		"communityBoard": 1,
-		"councilDistrict": 1,
-		"censusTract": 31,
-		"bin": 1079215,
-		"nta": "SoHo-TriBeCa-Civic Center-Little Italy                                     "
-	}]
+const samp_dat = ref([])
+const highestUse = ref(null)
+const lowestUse = ref(null)
+onMounted(() => {
+	const options = {
+		method: 'GET',
+		headers: {}
+	};
 
-const highestUse = samp_dat.reduce(function (prev, current) {
-	return (prev.energyUsage > current.energyUsage) ? prev : current
+
+	fetch('http://localhost:5156/api/energy', options)
+		.then(response => response.json())
+		.then(response => {
+			console.log(response); samp_dat.value = response
+			highestUse.value = samp_dat.value.reduce(function (prev, current) {
+				return (prev.energyUsage > current.energyUsage) ? prev : current
+			})
+
+			lowestUse.value = samp_dat.value.reduce(function (prev, current) {
+				return (prev.energyUsage < current.energyUsage) ? prev : current
+			})
+		})
+		.catch(err => console.error(err));
 })
 
-const lowestUse = samp_dat.reduce(function (prev, current) {
-	return (prev.energyUsage < current.energyUsage) ? prev : current
-})
 
 </script>
 
@@ -139,7 +43,7 @@ const lowestUse = samp_dat.reduce(function (prev, current) {
 			<div class="grid-item grid-item2">
 				<Map></Map>
 			</div>
-			<div class="grid-item highestUser">
+			<div v-if="highestUse" class="grid-item highestUser">
 				<div class="card w-100 border-danger summary">
 					<div class="card-header">
 						Highest Energy Usage
@@ -147,13 +51,13 @@ const lowestUse = samp_dat.reduce(function (prev, current) {
 					<div class="card-body">
 						<h5 class="card-title">{{ highestUse.buildingName }}</h5>
 						<h6 class="card-text text-danger">{{ highestUse.energyUsage }}</h6>
-						<a href="#" class="btn btn-primary">See more info</a>
+						<a :href="`/buildings/${highestUse.bbl}`" class="btn btn-primary">See more info</a>
 					</div>
-				</div>				
-				
+				</div>
+
 			</div>
-			
-			<div class="grid-item grid-item5">
+
+			<div v-if="lowestUse" class="grid-item grid-item5">
 				<div class="card  w-100 summary border-success ">
 					<div class="card-header">
 						Lowest Energy Usage
@@ -161,7 +65,7 @@ const lowestUse = samp_dat.reduce(function (prev, current) {
 					<div class="card-body">
 						<h5 class="card-title">{{ lowestUse.buildingName }}</h5>
 						<h6 class="card-text text-success">{{ lowestUse.energyUsage }}</h6>
-						<a href="#" class="btn btn-primary">See more info</a>
+						<a :href="`/buildings/${lowestUse.bbl}`" class="btn btn-primary">See more info</a>
 					</div>
 				</div>
 			</div>
