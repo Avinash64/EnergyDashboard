@@ -40,7 +40,7 @@ const save = () => {
 
 fetch('http://localhost:5156/api/energy', options)
   .then(response => response.status)
-  .then(response => console.log(response))
+  .then(response => {console.log(response)})
   .catch(err => console.error(err));
   router.push('/buildings');
 }
@@ -64,7 +64,6 @@ fetch(`http://localhost:5156/api/energy/${bbl}/`, options)
 	
 	<div class="buildingsPage">
 		<h1>Building {{ $route.params.id }}</h1>
-		<button >Add</button>
 	<div v-if="building"  class="buildingForm">
 		<div v-for="(value, key, index) in building.value" :key="index">
 			<div class="form-group">
@@ -77,7 +76,7 @@ fetch(`http://localhost:5156/api/energy/${bbl}/`, options)
 	<div class="options">
 		<button type="button" @click="save()" class="btn btn-primary">Save</button>
 		<button type="button" class="btn btn-secondary">Cancel</button>
-		<button type="button" @click="remove(building.value.bbl)" class="btn btn-secondary">Cancel</button>
+		<button type="button" @click="remove(building.value.bbl)" class="btn btn-danger">Delete</button>
 	</div>
 
 	</div>
@@ -87,6 +86,14 @@ fetch(`http://localhost:5156/api/energy/${bbl}/`, options)
 <style scoped>
 .buildingForm {
 	margin-left: 1rem;
+}
+
+.options {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 50%;
+	gap: 1%
 }
 .building_list_item {
 	display: flex;

@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from 'vue';
+
+import { useRouter } from 'vue-router';
+const router = useRouter()
 const username = ref('')
 const password = ref('')
 
@@ -18,6 +21,10 @@ const login = (username, password) => {
         .then(response => {console.log(response); 
         if(response.token){
             localStorage.setItem('token', response.token)
+            router.push('/');
+        }
+        else {
+            alert("login failed")
         }
         })
         .catch(err => console.error(err));
@@ -25,14 +32,27 @@ const login = (username, password) => {
 
 </script>
 <template>
-    <div>
-
-        <input v-model="username" />
-        <input v-model="password" />
-        <button @click="login(username, password)">Submit</button>
+    <div class="login">
+        <h1>Login</h1>
+        <input placeholder="username" class="form-control w-50" v-model="username" />
+        <input placeholder="password" class="form-control w-50" v-model="password" />
+        <button class="btn btn-primary" @click="login(username, password)">Submit</button>
 
     </div>
 </template>
 
 
-<style></style>
+<style>
+.login{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.login input{
+    text-align: center;
+}
+</style>

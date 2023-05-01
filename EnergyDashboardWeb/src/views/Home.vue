@@ -66,8 +66,8 @@ onMounted(() => {
 						Total Energy Usage
 					</div>
 					<div class="card-body">
-						<h1 class="card-title">{{ totalConsumption }}</h1>
-						<h6 class="card-text">{{ samp_dat.length }} Buildings</h6>
+						<h1 class="card-title">{{ totalConsumption }} MMBTU</h1>
+						<h6 class="card-text">Across {{ samp_dat.length }} Buildings</h6>
 						<a :href="`/buildings/`" class="btn btn-primary">See more info</a>
 					</div>
 				</div>
@@ -114,15 +114,15 @@ onMounted(() => {
 					</div>
 				</div>
 			</div>
-			<div class="grid-item grid-item7">Grid 2</div>
+			<div class="grid-item grid-item7">
+
+			</div>
 		</div>
 	</div>
 </template>
 
 
 <style>
-.highestUser {}
-
 .grid-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;

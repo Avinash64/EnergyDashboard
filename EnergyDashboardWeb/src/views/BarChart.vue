@@ -24,7 +24,7 @@ onMounted(() => {
         data: {
           labels: data.value.map((obj) => { return obj.buildingName; }),
           datasets: [{
-            label: 'Energy Usage by Year',
+            label: 'Energy Usage by Building',
             data: data.value.map((obj) => { return obj.energyUsage; }),
             borderWidth: 1,
             backgroundColor: 'rgba(0,0,200,1)'

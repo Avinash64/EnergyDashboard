@@ -21,7 +21,6 @@ fetch('http://localhost:5156/api/energy', options)
 <template>
     <div class="buildingsPage">
         <h1>Buildings</h1>
-        <button @click="b_num++">Add</button>
         <div class="list-group">
 
             <div class="building_list_item list-group-item">
@@ -44,7 +43,6 @@ fetch('http://localhost:5156/api/energy', options)
             </div>
         </div>
 
-    {{ b_num }}
   </div>
 </template>
 

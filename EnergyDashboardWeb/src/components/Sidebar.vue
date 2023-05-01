@@ -23,12 +23,12 @@
             <span class="text">About</span>
         </router-link>
         <router-link class="button" to="/buildings">
-            <span class="material-icons">group</span>
-            <span class="text">Team</span>
+            <span class="material-icons">apartment</span>
+            <span class="text">Buildings</span>
         </router-link>
-        <router-link class="button" to="/">
-            <span class="material-icons">mail</span>
-            <span class="text">Contact</span>
+        <router-link class="button" to="/login">
+            <span class="material-icons">login</span>
+            <span class="text">Login</span>
         </router-link>
     </div>
   </aside>
