@@ -1,17 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EnergyDashboardAPI.Models;
-using Microsoft.AspNetCore.Authorization;
+
 namespace EnergyDashboardAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
-    
-    public class EnergyController : ControllerBase
+    [ApiController]
+    public class StatsController : ControllerBase
     {
         private readonly EnergyContext _context;
 
-        public EnergyController(EnergyContext context)
+        public StatsController(EnergyContext context)
         {
             _context = context;
         }

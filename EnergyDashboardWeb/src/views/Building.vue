@@ -35,11 +35,22 @@ const save = () => {
 };
 
 fetch('http://localhost:5156/api/energy', options)
-  .then(response => response.json())
+  .then(response => response.status)
   .then(response => console.log(response))
   .catch(err => console.error(err));
   router.push('/buildings');
 }
+
+const remove = (bbl) => {
+	const options = {
+  method: 'DELETE',
+};
+
+fetch(`http://localhost:5156/api/energy/${bbl}/`, options)
+  .then(response => response.status)
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
+}  
 
 
 </script>
@@ -50,11 +61,11 @@ fetch('http://localhost:5156/api/energy', options)
 	<div class="buildingsPage">
 		<h1>Building {{ $route.params.id }}</h1>
 		<button >Add</button>
-	<div class="buildingForm">
-		<div v-if="building" v-for="(value, key, index) in building.value" :key="index">
+	<div v-if="building"  class="buildingForm">
+		<div v-for="(value, key, index) in building.value" :key="index">
 			<div class="form-group">
 				<label :for="`${key}${index}`">{{ key.toUpperCase() }}:</label>
-				<input type="text" class="form-control w-50" :id="`${key}${index}`" :placeholder="value" >
+				<input type="text" class="form-control w-50" :id="`${key}${index}`" v-model="building.value[key]" :placeholder="value" >
 			</div>
 		</div>
 	</div>
@@ -62,6 +73,7 @@ fetch('http://localhost:5156/api/energy', options)
 	<div class="options">
 		<button type="button" @click="save()" class="btn btn-primary">Save</button>
 		<button type="button" class="btn btn-secondary">Cancel</button>
+		<button type="button" @click="remove(building.value.bbl)" class="btn btn-secondary">Cancel</button>
 	</div>
 
 	</div>
