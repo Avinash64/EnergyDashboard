@@ -47,7 +47,14 @@ onMounted(() => {
 		})
 		.catch(err => console.error(err));
 })
-
+const getShuffledArr = arr => {
+    const newArr = arr.slice()
+    for (let i = newArr.length - 1; i > 0; i--) {
+        const rand = Math.floor(Math.random() * (i + 1));
+        [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
+    }
+    return newArr
+};
 
 </script>
 
@@ -114,9 +121,21 @@ onMounted(() => {
 					</div>
 				</div>
 			</div>
-			<div class="grid-item grid-item7">
 
-			</div>
+
+				<div v-for="building, index in getShuffledArr(samp_dat).slice(-3)" :key="index"  class="grid-item highestUser">
+					<div class="card w-100 summary">
+						<div class="card-header">
+							Random Building
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">{{ building.buildingName }}</h5>
+							<h6 class="card-text ">{{ building.energyUsage }}</h6>
+							<a :href="`/buildings/${building.bbl}`" class="btn btn-primary">See more info</a>
+						</div>
+					</div>
+					
+				</div>
 		</div>
 	</div>
 </template>
@@ -135,11 +154,11 @@ onMounted(() => {
 .dashboard {
 	width: 100%;
 }
-
+/* 
 .grid-item {
 	background-color: aquamarine;
-	/* border-style: solid; */
-}
+	border-style: solid;
+} */
 
 /* .grid-item2 {
         grid-column-start: 2;

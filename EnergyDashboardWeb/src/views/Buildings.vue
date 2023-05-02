@@ -23,7 +23,7 @@ fetch('http://localhost:5156/api/energy', options)
         <h1>Buildings</h1>
         <div class="list-group">
 
-            <div class="building_list_item list-group-item">
+            <div class="building_list_item list-group-item heading">
                 <div class="field">BBL</div>
                 <div class="field">Name</div>
                 <div class="field">Borough</div>
@@ -49,6 +49,11 @@ fetch('http://localhost:5156/api/energy', options)
 
 
 <style scoped>
+    .heading {
+        background-color: rgb(0, 0, 141);
+        color: white;
+    }
+        
     .building_list_item {
         display: flex;
         flex-direction: row;
@@ -66,7 +71,7 @@ fetch('http://localhost:5156/api/energy', options)
     }
 
     .odd {
-        background-color: aqua;
+        background-color: rgba(43, 247, 247, 0.887);
     }
 </style>
 

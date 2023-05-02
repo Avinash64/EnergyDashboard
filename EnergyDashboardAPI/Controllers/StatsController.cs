@@ -16,12 +16,12 @@ namespace EnergyDashboardAPI.Controllers
         }
 
         [HttpGet("min")]
-        public Building min()
+        public Building? min()
         {
             return _context.Buildings.ToList().MinBy(x => x.EnergyUsage);
         }
         [HttpGet("max")]
-        public Building max()
+        public Building? max()
         {
             return _context.Buildings.ToList().MaxBy(x => x.EnergyUsage);
         }       
