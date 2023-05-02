@@ -12,7 +12,7 @@ namespace EnergyDashboardAPI.Controllers {
                [HttpGet]
         public string Get()
         {
-            return "yeet";
+            return "test";
         }
 
         [HttpPost]
