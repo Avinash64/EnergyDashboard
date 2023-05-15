@@ -9,7 +9,7 @@ onMounted(() => {
     method: 'GET',
     headers: {}
   };
-  fetch('http://localhost:5156/api/stats/top/10', options)
+  fetch('http://energydashboardapi.azurewebsites.net/api/stats/top/10', options)
     .then(response => response.json())
     .then(response => {
       console.log(response); data.value = response

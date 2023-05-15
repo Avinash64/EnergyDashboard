@@ -10,7 +10,7 @@ onMounted(()=>{
   headers: {}
 };
 
-fetch('http://localhost:5156/api/energy', options)
+fetch('http://energydashboardapi.azurewebsites.net/api/energy', options)
   .then(response => response.json())
   .then(response => {console.log(response); samp_dat.value=response})
   .catch(err => console.error(err));
