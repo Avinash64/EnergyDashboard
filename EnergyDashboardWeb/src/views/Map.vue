@@ -11,7 +11,7 @@ const samp_dat = ref([])
 };
 
 
-fetch('http://energydashboardapi.azurewebsites.net/api/map?=', options)
+fetch('https://energydashboardapi.azurewebsites.net/api/map?=', options)
 .then(response => response.json())
 .then(response => {console.log(response); samp_dat.value=response})
 .catch(err => console.error(err));

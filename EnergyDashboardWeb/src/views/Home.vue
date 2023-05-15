@@ -14,24 +14,24 @@ onMounted(() => {
 		method: 'GET',
 		headers: {}
 	};
-	fetch('http://energydashboardapi.azurewebsites.net/api/stats/total', options)
+	fetch('https://energydashboardapi.azurewebsites.net/api/stats/total', options)
 		.then(response => response.json())
 		.then(response => {
 			console.log(response); totalConsumption.value = response
 		})
-	fetch('http://energydashboardapi.azurewebsites.net/api/stats/average', options)
+	fetch('https://energydashboardapi.azurewebsites.net/api/stats/average', options)
 		.then(response => response.json())
 		.then(response => {
 			console.log(response); averageConsumption.value = response
 		})
-	fetch('http://energydashboardapi.azurewebsites.net/api/stats/max', options)
+	fetch('https://energydashboardapi.azurewebsites.net/api/stats/max', options)
 		.then(response => response.json())
 		.then(response => {
 			console.log(response); highestUse.value = response
 		})
 
 		.catch(err => console.error(err));
-	fetch('http://energydashboardapi.azurewebsites.net/api/stats/min', options)
+	fetch('https://energydashboardapi.azurewebsites.net/api/stats/min', options)
 		.then(response => response.json())
 		.then(response => {
 			console.log(response); lowestUse.value = response
@@ -39,7 +39,7 @@ onMounted(() => {
 		})
 		.catch(err => console.error(err));
 
-	fetch('http://energydashboardapi.azurewebsites.net/api/energy', options)
+	fetch('https://energydashboardapi.azurewebsites.net/api/energy', options)
 		.then(response => response.json())
 		.then(response => {
 			console.log(response); samp_dat.value = response

@@ -19,7 +19,7 @@ onMounted(()=>{
 		host, hostname, href, origin, pathname, port, protocol, search
 	} = window.location
 	console.log(href.split('/')[4])
-	fetch(`http://energydashboardapi.azurewebsites.net/api/energy/${href.split('/')[4]}`, options)
+	fetch(`https://energydashboardapi.azurewebsites.net/api/energy/${href.split('/')[4]}`, options)
 	.then(response => response.json())
 	.then(response => {console.log(response); building.value = response} )
 	.catch(err => console.error(err));
@@ -38,7 +38,7 @@ const save = () => {
   body: JSON.stringify(building.value)
 };
 
-fetch('http://energydashboardapi.azurewebsites.net/api/energy', options)
+fetch('https://energydashboardapi.azurewebsites.net/api/energy', options)
   .then(response => response.status)
   .then(response => {console.log(response)})
   .catch(err => console.error(err));
@@ -50,7 +50,7 @@ const remove = (bbl) => {
   method: 'DELETE',
 };
 
-fetch(`http://energydashboardapi.azurewebsites.net/api/energy/${bbl}/`, options)
+fetch(`https://energydashboardapi.azurewebsites.net/api/energy/${bbl}/`, options)
   .then(response => response.status)
   .then(response => console.log(response))
   .catch(err => console.error(err));

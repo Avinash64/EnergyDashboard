@@ -16,7 +16,7 @@ const login = (username, password) => {
         body: `{"username":"${username}","password":"${password}"}`
     };
 
-    fetch('http://energydashboardapi.azurewebsites.net/api/login', options)
+    fetch('https://energydashboardapi.azurewebsites.net/api/login', options)
         .then(response => response.json())
         .then(response => {console.log(response); 
         if(response.token){
